@@ -129,8 +129,38 @@
 
   <div id="root"></div>
 
-  <!-- App code (JSX, transformed at runtime by Babel) -->
-  <script type="text/babel" data-type="module" data-presets="react" src="./app.js"></script>
+  <!-- App code: manually transform JSX with Babel and load as ES module -->
+  <script type="module">
+    // Wait for Babel global to be available
+    while (typeof Babel === 'undefined') {
+      await new Promise(r => setTimeout(r, 50));
+    }
+
+    try {
+      // Fetch app.js source
+      const response = await fetch('./app.js');
+      if (!response.ok) throw new Error('Failed to load app.js: ' + response.status);
+      const code = await response.text();
+
+      // Transform JSX → JS, preserving ES module syntax (no module transform plugin)
+      const { code: compiled } = Babel.transform(code, {
+        presets: ['react'],
+        plugins: [],
+        sourceType: 'module',
+      });
+
+      // Load compiled code as ES module via blob URL (ensures top-level imports work)
+      const blob = new Blob([compiled], { type: 'application/javascript' });
+      const blobUrl = URL.createObjectURL(blob);
+      await import(blobUrl);
+    } catch (err) {
+      console.error('App load error:', err);
+      document.getElementById('loading').innerHTML =
+        '<div style="color:#7A2A1F;font-family:serif;text-align:center;padding:20px">' +
+        '<div style="font-size:18px;margin-bottom:8px">載入失敗</div>' +
+        '<div style="font-size:13px;opacity:0.7">' + err.message + '</div></div>';
+    }
+  </script>
 
   <!-- Hide loading once React mounts -->
   <script>
