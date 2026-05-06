@@ -16,6 +16,7 @@
 
   <!-- iOS-specific PWA tags -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="御朱印帳" />
   <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
@@ -129,7 +130,7 @@
   <div id="root"></div>
 
   <!-- App code (JSX, transformed at runtime by Babel) -->
-  <script type="text/babel" data-type="module" data-presets="env,react" src="./app.js"></script>
+  <script type="text/babel" data-type="module" data-presets="react" src="./app.js"></script>
 
   <!-- Hide loading once React mounts -->
   <script>
