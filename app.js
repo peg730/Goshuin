@@ -1423,8 +1423,8 @@ export default function GoshuinApp() {
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderTop: `1px solid ${palette.washiDeep}`,
-        paddingTop: 6,
-        paddingBottom: 'calc(env(safe-area-inset-bottom) + 6px)',
+        paddingTop: 4,
+        paddingBottom: 'max(env(safe-area-inset-bottom), 4px)',
       }}>
         <div className="flex items-center justify-around px-3">
           {tabs.map(tab => {
@@ -1434,7 +1434,7 @@ export default function GoshuinApp() {
               <button
                 key={tab.id}
                 onClick={() => { setActiveTab(tab.id); setSelected(null); setProfileView('main'); }}
-                className="flex flex-col items-center gap-1 py-1 px-3 transition-all"
+                className="flex flex-col items-center gap-0.5 py-0.5 px-3 transition-all"
               >
                 <div className="relative">
                   <Icon size={20} style={{ color: active ? palette.shu : palette.sumiSoft }} strokeWidth={active ? 2 : 1.5} />
