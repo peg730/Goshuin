@@ -62,10 +62,10 @@
     }
     body {
       padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
       box-sizing: border-box;
+      /* No padding-bottom — nav extends to screen bottom and handles home indicator inset itself */
     }
     #root {
       height: 100%;
@@ -92,25 +92,14 @@
       justify-content: center;
       background: #F5EFE3;
       z-index: 9999;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.15s ease;
     }
     #loading.hidden { opacity: 0; pointer-events: none; }
     #loading .icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #314869, #14213A);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      margin-bottom: 16px;
-    }
-    #loading .icon span {
-      color: #F5EFE3;
-      font-family: "Shippori Mincho", serif;
-      font-size: 36px;
-      font-weight: 700;
+      width: 96px;
+      height: 96px;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.2));
     }
     #loading .text {
       color: #3A2F26;
@@ -123,7 +112,28 @@
 <body>
   <!-- Loading screen shown until React mounts -->
   <div id="loading">
-    <div class="icon"><span>朱</span></div>
+    <svg class="icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="lbg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#3D5878"/>
+          <stop offset="50%" stop-color="#1F324F"/>
+          <stop offset="100%" stop-color="#0F1A2D"/>
+        </linearGradient>
+        <linearGradient id="lslip" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#F5EFE3"/>
+          <stop offset="100%" stop-color="#E8DCC0"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="100" height="100" rx="22.5" ry="22.5" fill="url(#lbg)"/>
+      <rect x="33" y="13" width="34" height="74" rx="1.5" ry="1.5" fill="#000" opacity="0.18" transform="translate(0,1)"/>
+      <rect x="33" y="13" width="34" height="74" rx="1.5" ry="1.5" fill="url(#lslip)"/>
+      <rect x="35.5" y="15.5" width="29" height="69" fill="none" stroke="#A5874B" stroke-width="0.7" opacity="0.7"/>
+      <rect x="37" y="17" width="26" height="66" fill="none" stroke="#A5874B" stroke-width="0.3" opacity="0.45"/>
+      <text x="50" y="32" text-anchor="middle" fill="#1A1410" font-family="'Shippori Mincho','Noto Serif JP',serif" font-size="13.5" font-weight="700">御</text>
+      <text x="50" y="48" text-anchor="middle" fill="#1A1410" font-family="'Shippori Mincho','Noto Serif JP',serif" font-size="13.5" font-weight="700">朱</text>
+      <text x="50" y="64" text-anchor="middle" fill="#1A1410" font-family="'Shippori Mincho','Noto Serif JP',serif" font-size="13.5" font-weight="700">印</text>
+      <text x="50" y="80" text-anchor="middle" fill="#1A1410" font-family="'Shippori Mincho','Noto Serif JP',serif" font-size="13.5" font-weight="700">帳</text>
+    </svg>
     <div class="text">御朱印帳</div>
   </div>
 
@@ -140,7 +150,10 @@
       // Fetch app.js source
       const response = await fetch('./app.js');
       if (!response.ok) throw new Error('Failed to load app.js: ' + response.status);
-      const code = await response.text();
+      let code = await response.text();
+
+      // Compatibility: in case app.js component is named GoshuinApp but createRoot uses <App />
+      code = code.replace(/<App\s*\/>/g, '<GoshuinApp />');
 
       // Transform JSX → JS, preserving ES module syntax (no module transform plugin)
       const { code: compiled } = Babel.transform(code, {
@@ -170,7 +183,7 @@
     const observer = new MutationObserver(() => {
       if (rootEl.children.length > 0) {
         loadingEl.classList.add('hidden');
-        setTimeout(() => loadingEl.remove(), 500);
+        setTimeout(() => loadingEl.remove(), 200);
         observer.disconnect();
       }
     });
@@ -179,7 +192,7 @@
     setTimeout(() => {
       if (loadingEl.parentNode) {
         loadingEl.classList.add('hidden');
-        setTimeout(() => loadingEl.remove(), 500);
+        setTimeout(() => loadingEl.remove(), 200);
       }
     }, 8000);
   </script>
