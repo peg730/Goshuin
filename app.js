@@ -312,7 +312,7 @@ export default function GoshuinApp() {
 
   // ============== SCREENS ==============
 
-  const HomeScreen = () => (
+  const homeScreen = (
     <div className="overflow-y-auto h-full pb-32" style={{ backgroundColor: palette.washi }}>
       <div className="relative px-6 pt-3 pb-5">
         <div className="flex items-start justify-between">
@@ -448,7 +448,7 @@ export default function GoshuinApp() {
     </div>
   );
 
-  const CollectionScreen = () => (
+  const collectionScreen = (
     <div className="overflow-y-auto h-full pb-32" style={{ backgroundColor: palette.washi }}>
       <div className="px-6 pt-3 pb-4 flex items-end justify-between">
         <div>
@@ -585,7 +585,7 @@ export default function GoshuinApp() {
     </div>
   );
 
-  const DiscoverScreen = () => (
+  const discoverScreen = (
     <div className="overflow-y-auto h-full pb-32" style={{ backgroundColor: palette.washi }}>
       <div className="px-6 pt-3 pb-4">
         <div className="flex items-center gap-2 mb-1">
@@ -1407,14 +1407,14 @@ export default function GoshuinApp() {
     <div className="h-full w-full flex flex-col overflow-hidden relative" style={{ backgroundColor: palette.washi }}>
       {/* Main content area */}
       <div className="flex-1 relative overflow-hidden">
-        {activeTab === 'home' && <HomeScreen />}
-        {activeTab === 'collection' && <CollectionScreen />}
-        {activeTab === 'discover' && <DiscoverScreen />}
-        {activeTab === 'profile' && <ProfileScreen />}
+        {activeTab === 'home' && homeScreen}
+        {activeTab === 'collection' && collectionScreen}
+        {activeTab === 'discover' && discoverScreen}
+        {activeTab === 'profile' && ProfileScreen()}
 
-        <DetailModal />
-        <CategoryInfoModal />
-        <AddModal />
+        {DetailModal()}
+        {CategoryInfoModal()}
+        {AddModal()}
       </div>
 
       {/* Bottom navigation */}
