@@ -1424,7 +1424,7 @@ export default function GoshuinApp() {
         WebkitBackdropFilter: 'blur(20px)',
         borderTop: `1px solid ${palette.washiDeep}`,
         paddingTop: 4,
-        paddingBottom: 'max(env(safe-area-inset-bottom), 4px)',
+        paddingBottom: 'max(calc(env(safe-area-inset-bottom) - 19px), 2px)',
       }}>
         <div className="flex items-center justify-around px-3">
           {tabs.map(tab => {
