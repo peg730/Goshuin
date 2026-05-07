@@ -291,3 +291,7 @@ img, video { max-width: 100%; height: auto; }
 .space-y-2 > * + * { margin-top: 0.5rem; }
 .space-y-3 > * + * { margin-top: 0.75rem; }
 .space-y-4 > * + * { margin-top: 1rem; }
+
+/* Tighter spacing utilities for bottom nav */
+.gap-0\.5 { gap: 0.125rem; }
+.py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
