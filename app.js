@@ -1423,8 +1423,8 @@ export default function GoshuinApp() {
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderTop: `1px solid ${palette.washiDeep}`,
-        paddingTop: 8,
-        paddingBottom: 8,
+        paddingTop: 6,
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 6px)',
       }}>
         <div className="flex items-center justify-around px-3">
           {tabs.map(tab => {
